@@ -17,18 +17,18 @@ The system is fully automated and triggers without physical buttons.
 ---
 
 ## 🧠 Machine Learning Pipeline
-This project benchmarked 5 distinct AI architectures to find the optimal balance between Accuracy, ESP32 SRAM usage, and Inference Latency. 
+This project benchmarked 5 distinct AI architectures to find the optimal balance between Accuracy, ESP32 SRAM usage, and Inference Latency on a physically realistic, overlapping acoustic dataset.
 
 | Model | Accuracy | Flash Footprint | Peak RAM | PC Latency | TFLite Req? |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1D-CNN** | 100.00% | 9.62 KB | 7.71 KB | 0.0049 ms | Yes |
-| **2D-CNN** | 99.33% | 5.97 KB | 3.16 KB | 0.0014 ms | Yes |
-| **LSTM** | 99.67% | 168.79 KB | 1.92 KB | 0.0146 ms | Yes |
-| **Standard DNN**| 100.00% | 3.80 KB | 0.28 KB | 0.0012 ms | Yes |
-| **Random Forest** | **100.00%** | **~27 KB** | **< 0.5 KB** | **Sub-ms**| **No (Pure C++)** |
+| **LSTM** | 96.10% | 168.79 KB | 1.92 KB | 0.0146 ms | Yes |
+| **1D-CNN** | 95.33% | 9.62 KB | 7.71 KB | 0.0049 ms | Yes |
+| **Random Forest** | **94.67%** | **~27 KB** | **< 0.5 KB** | **Sub-ms**| **No (Pure C++)** |
+| **2D-CNN** | 93.67% | 5.97 KB | 3.16 KB | 0.0014 ms | Yes |
+| **Standard DNN**| 91.50% | 3.80 KB | 0.28 KB | 0.0012 ms | Yes |
 
 ### Why Random Forest?
-While CNNs and LSTMs are traditionally favored for time-series decay, the physical amplitude gap of the impact strike was sufficient for traditional ML. Using `micromlgen`, the Random Forest was exported as pure native C++ `if/else` statements. This bypassed the TensorFlow Lite interpreter entirely, reducing RAM usage to near-zero and eliminating floating-point scaling preprocessing.
+While the LSTM and 1D-CNN achieved marginally higher accuracies by tracking the exact temporal decay sequence, the Random Forest maintained a highly competitive 94.67% while offering massive hardware benefits. Using `micromlgen`, the Random Forest was exported as pure native C++ `if/else` statements. This bypassed the TensorFlow Lite interpreter entirely, reducing RAM usage to near-zero, eliminating floating-point scaling preprocessing, and making it the most efficient choice for this specific ESP32 edge deployment.
 
 ---
 
